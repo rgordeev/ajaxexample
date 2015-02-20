@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Ajax simple application</title>
+    <script type="text/javascript" src="js/jquery/jquery-2.0.3.js"></script>
+</head>
+<body>
+<h1>Simple form</h1>
+<!--Простая форма с данными, как текстовыми, так и множественного выбора-->
+<form id="dataForm">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input name="name" type="text"></td>
+        </tr>
+        <tr>
+            <td>Lastname</td>
+            <td><input name="lastname" type="text"></td>
+        </tr>
+        <tr>
+            <td>
+                Colors
+            </td>
+            <td>
+                Red <input name="colors" type="checkbox" value="Red"><br/>
+                Green <input name="colors" type="checkbox" value="Green"><br/>
+                Blue <input name="colors" type="checkbox" value="Blue">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Send form"></td>
+        </tr>
+    </table>
+</form>
+<div id="result">Response text will be here</div>
+
+<script type="text/javascript">
+    // объявляем функцию в своем пространстве имен
+    (function( example, $, undefined ) {
+        // отправляет запрос серверу
+        example.sendData = function(formID)
+        {
+            jQuery.ajax({
+                url: 'ajax.jsp', // куда отправляем
+                type: 'post',    // тип запроса
+                contentType: "application/x-www-form-urlencoded", // mime type данных
+                async: true,     // асинхронно?
+                dataType: 'html', // что ожидаем получить в ответ
+                data: $(formID).serialize(), // сериализуем форму с полями
+                success: function (response) {
+                    // в случае успеха пишем в div ответ
+                    jQuery('#result').text(response);
+                },
+                error: function (xhr, status) {
+                    // в случае ошибки выводит код ошибки в модальном окне
+                    alert(status);
+                }
+            });
+        };
+    }( window.example = window.example || {}, jQuery ));
+
+    // вешаем обработчик форме на submit
+    $(document).ready(function () {
+        $("#dataForm").submit(function () {
+            example.sendData('#dataForm');
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

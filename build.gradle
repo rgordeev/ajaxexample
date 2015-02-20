@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    // Apache commons
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+    compile 'org.apache.commons:commons-collections4:4.0'
+
+    // logging
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile 'org.slf4j:slf4j-log4j12:1.7.7'
+
+    // Servlet API libs
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+    providedCompile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.1'
+}
+
+// Jetty Properties
+jettyRun {
+    httpPort = 8080
+    stopPort = 8081
+    stopKey  = 'stopKey'
+    //daemon   = true
+}
+
+jettyRunWar {
+    httpPort = 8080
+    stopPort = 8081
+    stopKey  = 'stopKey'
+    //daemon   = true
+}
+
+jettyStop {
+    stopPort = 8081
+    stopKey  = 'stopKey'
+}
+
